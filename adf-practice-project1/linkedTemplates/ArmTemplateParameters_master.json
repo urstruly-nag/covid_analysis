@@ -1,0 +1,39 @@
+{
+	"$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentParameters.json#",
+	"contentVersion": "1.0.0.0",
+	"parameters": {
+		"factoryName": {
+			"value": "adf-practice-project1"
+		},
+		"ls_adls_accountKey": {
+			"value": ""
+		},
+		"ls_adls_covid_accountKey": {
+			"value": ""
+		},
+		"ls_blob_covid_connectionString": {
+			"value": ""
+		},
+		"HttpServer1_properties_typeProperties_url": {
+			"value": "https://github.com/urstruly-nag/covid_analysis/blob/main/"
+		},
+		"ls_adls_properties_typeProperties_url": {
+			"value": "https://saadlscovid7.dfs.core.windows.net/"
+		},
+		"ls_adls_covid_properties_typeProperties_url": {
+			"value": "https://saadlscovid7.dfs.core.windows.net/"
+		},
+		"ls_http_properties_typeProperties_url": {
+			"value": "@{linkedService().baseUrl}"
+		},
+		"ls_http_ecdcsite_properties_typeProperties_url": {
+			"value": "@{linkedService().baseSourceURL}"
+		},
+		"containerUri": {
+			"value": ""
+		},
+		"containerSasToken": {
+			"value": ""
+		}
+	}
+}
