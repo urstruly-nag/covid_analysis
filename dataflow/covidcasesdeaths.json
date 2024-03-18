@@ -15,8 +15,12 @@
 			"sinks": [],
 			"transformations": [
 				{
-					"name": "selectaisa",
+					"name": "filteraisa",
 					"description": "taking 'continent' asia rows"
+				},
+				{
+					"name": "select1",
+					"description": "select columns 'country, country_code, population, indicator, daily_count, date, source'"
 				}
 			],
 			"scriptLines": [
@@ -35,7 +39,13 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> srccasesdeath",
-				"srccasesdeath filter(continent == \"Asia\") ~> selectaisa"
+				"srccasesdeath filter(continent == \"Asia\") ~> filteraisa",
+				"filteraisa select(mapColumn(",
+				"          each(match(true()),",
+				"               'cases_' + $$  = $$)",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> select1"
 			]
 		}
 	}
