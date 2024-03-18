@@ -1,0 +1,41 @@
+{
+	"name": "ds_src_http_ecdc_csv",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_http_ecdcsite",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"baseSourceURL": {
+					"value": "@dataset().baseSourceURL",
+					"type": "Expression"
+				}
+			}
+		},
+		"parameters": {
+			"relativeURL": {
+				"type": "string"
+			},
+			"baseSourceURL": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": {
+					"value": "@dataset().relativeURL",
+					"type": "Expression"
+				}
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"nullValue": "sql_server_class_mydb_admin123",
+			"quoteChar": "\""
+		},
+		"schema": []
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}

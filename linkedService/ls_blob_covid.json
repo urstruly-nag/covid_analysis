@@ -1,0 +1,12 @@
+{
+	"name": "ls_blob_covid",
+	"type": "Microsoft.DataFactory/factories/linkedservices",
+	"properties": {
+		"description": "linked service for blob storage connection for covid project",
+		"annotations": [],
+		"type": "AzureBlobStorage",
+		"typeProperties": {
+			"connectionString": "DKLJR+tTlv5yFZRvbFI2BPX5hFdDtmdphd9naZO+HSAtliFYzYfVx+7gp6+MkZtPxYytHF5x999i+AStit7+Yw=="
+		}
+	}
+}

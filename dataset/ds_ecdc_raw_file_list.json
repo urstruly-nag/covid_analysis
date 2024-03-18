@@ -1,0 +1,30 @@
+{
+	"name": "ds_ecdc_raw_file_list",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adls_covid",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "covid_files_links.json",
+				"fileSystem": "covid-raw-data"
+			}
+		},
+		"schema": {
+			"type": "object",
+			"properties": {
+				"sourceRelativeURL": {
+					"type": "string"
+				},
+				"sinkFileName": {
+					"type": "string"
+				}
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/datasets"
+}
