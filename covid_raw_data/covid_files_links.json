@@ -1,0 +1,27 @@
+[
+  {
+    "sourceBaseURL": "https://raw.githubusercontent.com/urstruly-nag/covid_analysis/main/",
+    "sourceRelativeURL": "covid_raw_data/case_deaths_uk_ind_only.csv",
+    "sinkFileName": "case_deaths_uk_ind_only"
+  },
+  {
+    "sourceBaseURL": "https://raw.githubusercontent.com/urstruly-nag/covid_analysis/main/",
+    "sourceRelativeURL": "covid_raw_data/cases_deaths.csv",
+    "sinkFileName": "cases_deaths"
+  },
+  {
+    "sourceBaseURL": "https://raw.githubusercontent.com/urstruly-nag/covid_analysis/main/",
+    "sourceRelativeURL": "covid_raw_data/country_response.csv",
+    "sinkFileName": "country_response"
+  },
+  {
+    "sourceBaseURL": "https://raw.githubusercontent.com/urstruly-nag/covid_analysis/main/",
+    "sourceRelativeURL": "covid_raw_data/hospital_admissions.csv",
+    "sinkFileName": "hospital_admissions"
+  },
+  {
+    "sourceBaseURL": "https://raw.githubusercontent.com/urstruly-nag/covid_analysis/main/",
+    "sourceRelativeURL": "covid_raw_data/testing.csv",
+    "sinkFileName": "testing"
+  }
+]
