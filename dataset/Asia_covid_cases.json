@@ -1,5 +1,5 @@
 {
-	"name": "Asis_covid_cases",
+	"name": "Asia_covid_cases",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "ls_adls",
@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"folderPath": "covid_deaths",
 				"fileSystem": "output"
 			},
 			"columnDelimiter": ",",

@@ -10,15 +10,22 @@
 						"type": "DatasetReference"
 					},
 					"name": "srccasesdeath"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_country_lookup",
+						"type": "DatasetReference"
+					},
+					"name": "SrcCountryLookup"
 				}
 			],
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "Asis_covid_cases",
+						"referenceName": "Asia_covid_cases",
 						"type": "DatasetReference"
 					},
-					"name": "sink1"
+					"name": "sinkCovidCasesAsia"
 				}
 			],
 			"transformations": [
@@ -29,6 +36,16 @@
 				{
 					"name": "select1",
 					"description": "select columns 'country, country_code, population, indicator, daily_count, date, source'"
+				},
+				{
+					"name": "pivot1"
+				},
+				{
+					"name": "lookup1"
+				},
+				{
+					"name": "selectReqColAtEnd",
+					"description": "selectReqColAtEnd with columns 'country, country_code, population, source, reported_date, country_special, confirmed cases_count, deaths_count, country_code_2_digit, country_code_3_digit, continent'"
 				}
 			],
 			"scriptLines": [
@@ -36,31 +53,76 @@
 				"          country as string,",
 				"          country_code as string,",
 				"          continent as string,",
-				"          population as string,",
+				"          population as integer,",
 				"          indicator as string,",
-				"          daily_count as string,",
-				"          date as string,",
-				"          rate_14_day as string,",
+				"          daily_count as integer,",
+				"          date as date,",
+				"          rate_14_day as integer,",
 				"          source as string",
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> srccasesdeath",
+				"source(output(",
+				"          country as string,",
+				"          country_code_2_digit as string,",
+				"          country_code_3_digit as string,",
+				"          continent as string,",
+				"          population as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> SrcCountryLookup",
 				"srccasesdeath filter(continent == \"Asia\") ~> filteraisa",
 				"filteraisa select(mapColumn(",
-				"          each(match(true()),",
-				"               'cases_' + $$  = $$)",
+				"          country,",
+				"          country_code,",
+				"          population,",
+				"          indicator,",
+				"          daily_count,",
+				"          source,",
+				"          each(match(name == \"date\"),",
+				"               \"reported_date\" = $$)",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> select1",
-				"select1 sink(allowSchemaDrift: true,",
+				"select1 pivot(groupBy(country,",
+				"          country_code,",
+				"          population,",
+				"          source,",
+				"          reported_date,",
+				"          country_special = country + \" \" + country_code),",
+				"     pivotBy(indicator, ['confirmed cases', 'deaths']),",
+				"     count = sum(daily_count),",
+				"     columnNaming: '$V_$N',",
+				"     lateral: true) ~> pivot1",
+				"pivot1, SrcCountryLookup lookup(pivot1@country == SrcCountryLookup@country,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookup1",
+				"lookup1 select(mapColumn(",
+				"          country = pivot1@country,",
+				"          country_code_2_digit,",
+				"          country_code_3_digit,",
+				"          population = pivot1@population,",
+				"          cases_count = {confirmed cases_count},",
+				"          deaths_count,",
+				"          reported_date,",
+				"          source",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectReqColAtEnd",
+				"selectReqColAtEnd sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     partitionFileNames:[''],",
+				"     truncate: true,",
 				"     umask: 0022,",
 				"     preCommands: [],",
 				"     postCommands: [],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sinkCovidCasesAsia"
 			]
 		}
 	}
