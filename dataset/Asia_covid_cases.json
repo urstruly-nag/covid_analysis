@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"fileName": "Asia_covid_cases",
 				"folderPath": "covid_deaths",
 				"fileSystem": "output"
 			},
