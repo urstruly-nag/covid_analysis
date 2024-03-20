@@ -248,6 +248,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "covid_files_links.json",
+						"folderPath": "covid_files_links",
 						"fileSystem": "covid-raw-data"
 					}
 				},
@@ -359,12 +360,12 @@
 				"annotations": [],
 				"type": "Excel",
 				"typeProperties": {
+					"sheetName": "in",
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "country-lookup.xlsx",
+						"folderPath": "country-lookup",
 						"fileSystem": "covid-raw-data"
 					},
-					"sheetIndex": 0,
 					"firstRowAsHeader": true
 				},
 				"schema": [
@@ -408,7 +409,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "cases_deaths",
+						"fileName": "cases_deaths.parquet",
+						"folderPath": "cases_deaths",
 						"fileSystem": "covid-raw-data"
 					},
 					"compressionCodec": "snappy"
@@ -472,6 +474,7 @@
 					"location": {
 						"type": "AzureBlobFSLocation",
 						"fileName": "dim-date.xlsx",
+						"folderPath": "dim-date",
 						"fileSystem": "covid-raw-data"
 					},
 					"firstRowAsHeader": true
@@ -634,7 +637,8 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "hospital_admissions",
+						"fileName": "hospital_admissions.parquet",
+						"folderPath": "hospital_admissions",
 						"fileSystem": "covid-raw-data"
 					},
 					"compressionCodec": "snappy"
