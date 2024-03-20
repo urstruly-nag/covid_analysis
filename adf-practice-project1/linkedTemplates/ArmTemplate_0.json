@@ -607,7 +607,6 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
-						"fileName": "hospital_admissions_weekly",
 						"fileSystem": "output"
 					},
 					"columnDelimiter": ",",
