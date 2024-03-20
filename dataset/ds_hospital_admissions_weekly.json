@@ -10,6 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
+				"folderPath": "hospital_admissions_weekly_data",
 				"fileSystem": "output"
 			},
 			"columnDelimiter": ",",

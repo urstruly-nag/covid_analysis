@@ -11,6 +11,7 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "hospital_admissions_daily",
+				"folderPath": "hospital_admissions_daily_data",
 				"fileSystem": "output"
 			},
 			"columnDelimiter": ",",
