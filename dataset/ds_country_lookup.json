@@ -8,9 +8,9 @@
 		"annotations": [],
 		"type": "Excel",
 		"typeProperties": {
+			"sheetName": "in",
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "country-lookup.xlsx",
 				"folderPath": "country-lookup",
 				"fileSystem": "covid-raw-data"
 			},
