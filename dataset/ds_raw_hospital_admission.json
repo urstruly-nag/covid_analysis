@@ -1,0 +1,49 @@
+{
+	"name": "ds_raw_hospital_admission",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "ls_adls",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Parquet",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "hospital_admissions",
+				"fileSystem": "covid-raw-data"
+			},
+			"compressionCodec": "snappy"
+		},
+		"schema": [
+			{
+				"name": "country",
+				"type": "UTF8"
+			},
+			{
+				"name": "indicator",
+				"type": "UTF8"
+			},
+			{
+				"name": "date",
+				"type": "UTF8"
+			},
+			{
+				"name": "year_week",
+				"type": "UTF8"
+			},
+			{
+				"name": "value",
+				"type": "UTF8"
+			},
+			{
+				"name": "source",
+				"type": "UTF8"
+			},
+			{
+				"name": "url",
+				"type": "UTF8"
+			}
+		]
+	}
+}

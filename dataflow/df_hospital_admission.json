@@ -1,0 +1,94 @@
+{
+	"name": "df_hospital_admission",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ds_raw_hospital_admission",
+						"type": "DatasetReference"
+					},
+					"name": "HospitalAdmission"
+				},
+				{
+					"dataset": {
+						"referenceName": "ds_country_lookup",
+						"type": "DatasetReference"
+					},
+					"name": "countryLookup"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "selectReqFields",
+					"description": "selectReqFields with columns 'country, indicator, reported_date, reported_year_week, value, source'"
+				},
+				{
+					"name": "lookupCountry"
+				},
+				{
+					"name": "selectReqCountryHospitalFields"
+				},
+				{
+					"name": "split1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          country as string,",
+				"          indicator as string,",
+				"          date as date,",
+				"          year_week as string,",
+				"          value as integer,",
+				"          source as string,",
+				"          url as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> HospitalAdmission",
+				"source(output(",
+				"          country as string,",
+				"          country_code_2_digit as string,",
+				"          country_code_3_digit as string,",
+				"          continent as string,",
+				"          population as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> countryLookup",
+				"HospitalAdmission select(mapColumn(",
+				"          country,",
+				"          indicator,",
+				"          reported_date = date,",
+				"          reported_year_week = year_week,",
+				"          value,",
+				"          source",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectReqFields",
+				"selectReqFields, countryLookup lookup(selectReqFields@country == countryLookup@country,",
+				"     multiple: false,",
+				"     pickup: 'any',",
+				"     broadcast: 'auto')~> lookupCountry",
+				"lookupCountry select(mapColumn(",
+				"          country = selectReqFields@country,",
+				"          country_code_2_digit,",
+				"          country_code_3_digit,",
+				"          indicator,",
+				"          reported_date,",
+				"          reported_year_week,",
+				"          value,",
+				"          source,",
+				"          population",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectReqCountryHospitalFields",
+				"selectReqCountryHospitalFields split(ERROR_FUNCTION(''),",
+				"     disjoint: false) ~> split1@(, )"
+			]
+		}
+	}
+}
