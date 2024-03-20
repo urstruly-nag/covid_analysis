@@ -10,7 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "hospital_admissions",
+				"fileName": "hospital_admissions.parquet",
+				"folderPath": "hospital_admissions",
 				"fileSystem": "covid-raw-data"
 			},
 			"compressionCodec": "snappy"

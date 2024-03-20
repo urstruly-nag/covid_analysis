@@ -10,7 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"fileName": "cases_deaths",
+				"fileName": "cases_deaths.parquet",
+				"folderPath": "cases_deaths",
 				"fileSystem": "covid-raw-data"
 			},
 			"compressionCodec": "snappy"

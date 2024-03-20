@@ -11,9 +11,9 @@
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "country-lookup.xlsx",
+				"folderPath": "country-lookup",
 				"fileSystem": "covid-raw-data"
 			},
-			"sheetIndex": 0,
 			"firstRowAsHeader": true
 		},
 		"schema": [

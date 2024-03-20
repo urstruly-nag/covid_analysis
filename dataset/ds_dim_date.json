@@ -8,10 +8,10 @@
 		"annotations": [],
 		"type": "Excel",
 		"typeProperties": {
-			"sheetName": "in",
 			"location": {
 				"type": "AzureBlobFSLocation",
 				"fileName": "dim-date.xlsx",
+				"folderPath": "dim-date",
 				"fileSystem": "covid-raw-data"
 			},
 			"firstRowAsHeader": true
