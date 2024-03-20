@@ -904,6 +904,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "hospital_admissions_daily",
 						"fileSystem": "output"
 					},
 					"columnDelimiter": ",",
@@ -931,6 +932,7 @@
 				"typeProperties": {
 					"location": {
 						"type": "AzureBlobFSLocation",
+						"fileName": "hospital_admissions_weekly",
 						"fileSystem": "output"
 					},
 					"columnDelimiter": ",",
