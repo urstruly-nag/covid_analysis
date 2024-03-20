@@ -13,85 +13,12 @@
 	},
 	"resources": [
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_dim_date')]",
+			"name": "[concat(parameters('factoryName'), '/ds_sink_output')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "ls_adls",
-					"type": "LinkedServiceReference"
-				},
-				"annotations": [],
-				"type": "Excel",
-				"typeProperties": {
-					"sheetName": "in",
-					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileName": "dim-date.xlsx",
-						"fileSystem": "covid-raw-data"
-					},
-					"firstRowAsHeader": true
-				},
-				"schema": [
-					{
-						"name": "date_key",
-						"type": "String"
-					},
-					{
-						"name": "date",
-						"type": "String"
-					},
-					{
-						"name": "year",
-						"type": "String"
-					},
-					{
-						"name": "month",
-						"type": "String"
-					},
-					{
-						"name": "day",
-						"type": "String"
-					},
-					{
-						"name": "day_name",
-						"type": "String"
-					},
-					{
-						"name": "day_of_year",
-						"type": "String"
-					},
-					{
-						"name": "week_of_month",
-						"type": "String"
-					},
-					{
-						"name": "week_of_year",
-						"type": "String"
-					},
-					{
-						"name": "month_name",
-						"type": "String"
-					},
-					{
-						"name": "year_month",
-						"type": "String"
-					},
-					{
-						"name": "year_week",
-						"type": "String"
-					}
-				]
-			},
-			"dependsOn": []
-		},
-		{
-			"name": "[concat(parameters('factoryName'), '/ds_hospital_admissions_weekly')]",
-			"type": "Microsoft.DataFactory/factories/datasets",
-			"apiVersion": "2018-06-01",
-			"properties": {
-				"linkedServiceName": {
-					"referenceName": "ls_adls",
+					"referenceName": "ls_adls_covid",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
@@ -111,20 +38,64 @@
 			"dependsOn": []
 		},
 		{
-			"name": "[concat(parameters('factoryName'), '/ds_hospital_admissions_daily')]",
+			"name": "[concat(parameters('factoryName'), '/ds_src_http_ecdc_csv')]",
 			"type": "Microsoft.DataFactory/factories/datasets",
 			"apiVersion": "2018-06-01",
 			"properties": {
 				"linkedServiceName": {
-					"referenceName": "ls_adls",
+					"referenceName": "ls_http_ecdcsite",
+					"type": "LinkedServiceReference",
+					"parameters": {
+						"baseSourceURL": {
+							"value": "@dataset().baseSourceURL",
+							"type": "Expression"
+						}
+					}
+				},
+				"parameters": {
+					"relativeURL": {
+						"type": "string"
+					},
+					"baseSourceURL": {
+						"type": "string"
+					}
+				},
+				"annotations": [],
+				"type": "DelimitedText",
+				"typeProperties": {
+					"location": {
+						"type": "HttpServerLocation",
+						"relativeUrl": {
+							"value": "@dataset().relativeURL",
+							"type": "Expression"
+						}
+					},
+					"columnDelimiter": ",",
+					"escapeChar": "\\",
+					"firstRowAsHeader": true,
+					"nullValue": "sql_server_class_mydb_admin123",
+					"quoteChar": "\""
+				},
+				"schema": []
+			},
+			"dependsOn": []
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/ds_src_input')]",
+			"type": "Microsoft.DataFactory/factories/datasets",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"linkedServiceName": {
+					"referenceName": "ls_blob_covid",
 					"type": "LinkedServiceReference"
 				},
 				"annotations": [],
 				"type": "DelimitedText",
 				"typeProperties": {
 					"location": {
-						"type": "AzureBlobFSLocation",
-						"fileSystem": "output"
+						"type": "AzureBlobStorageLocation",
+						"fileName": "tps00010.tsv",
+						"container": "input"
 					},
 					"columnDelimiter": ",",
 					"escapeChar": "\\",
@@ -458,7 +429,10 @@
 				"annotations": [],
 				"lastPublishTime": "2024-03-18T16:12:37Z"
 			},
-			"dependsOn": []
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/datasets/ds_src_input')]",
+				"[concat(variables('factoryId'), '/datasets/ds_sink_output')]"
+			]
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/covidcasesdeaths')]",
@@ -830,11 +804,7 @@
 					]
 				}
 			},
-			"dependsOn": [
-				"[concat(variables('factoryId'), '/datasets/ds_dim_date')]",
-				"[concat(variables('factoryId'), '/datasets/ds_hospital_admissions_weekly')]",
-				"[concat(variables('factoryId'), '/datasets/ds_hospital_admissions_daily')]"
-			]
+			"dependsOn": []
 		},
 		{
 			"name": "[concat(parameters('factoryName'), '/pl_dataflow_Asia_covid_cases')]",
@@ -884,6 +854,55 @@
 			},
 			"dependsOn": [
 				"[concat(variables('factoryId'), '/dataflows/covidcasesdeaths')]"
+			]
+		},
+		{
+			"name": "[concat(parameters('factoryName'), '/pl_hospital_admissions')]",
+			"type": "Microsoft.DataFactory/factories/pipelines",
+			"apiVersion": "2018-06-01",
+			"properties": {
+				"activities": [
+					{
+						"name": "Data flow Hospital Admissions",
+						"type": "ExecuteDataFlow",
+						"dependsOn": [],
+						"policy": {
+							"timeout": "0.12:00:00",
+							"retry": 0,
+							"retryIntervalInSeconds": 30,
+							"secureOutput": false,
+							"secureInput": false
+						},
+						"userProperties": [],
+						"typeProperties": {
+							"dataflow": {
+								"referenceName": "df_hospital_admission",
+								"type": "DataFlowReference",
+								"parameters": {},
+								"datasetParameters": {
+									"HospitalAdmission": {},
+									"countryLookup": {},
+									"dimdatelookup": {},
+									"sinkWeekly": {},
+									"sinkDaily": {}
+								}
+							},
+							"staging": {},
+							"compute": {
+								"coreCount": 8,
+								"computeType": "General"
+							},
+							"traceLevel": "Fine"
+						}
+					}
+				],
+				"policy": {
+					"elapsedTimeMetric": {}
+				},
+				"annotations": []
+			},
+			"dependsOn": [
+				"[concat(variables('factoryId'), '/dataflows/df_hospital_admission')]"
 			]
 		}
 	]
