@@ -1,0 +1,10 @@
+{
+	"name": "ls_keyvault_voya",
+	"properties": {
+		"annotations": [],
+		"type": "AzureKeyVault",
+		"typeProperties": {
+			"baseUrl": "https://kvVoya.vault.azure.net/"
+		}
+	}
+}
