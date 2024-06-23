@@ -25,7 +25,7 @@
 					"source": {
 						"type": "AzureSqlSource",
 						"sqlReaderQuery": {
-							"value": "SELECT *,\n    '@{pipeline().parameters.createdBy}' AS createdBy, \n    CAST('@{pipeline().parameters.createdDate}' AS DATETIME) AS createdDate, \n    '@{pipeline().parameters.createdBy}' AS updatedBy, \n    CAST('@{pipeline().parameters.updatedDate}' AS DATETIME) AS updatedDate\nFROM raw.employees;\n",
+							"value": "SELECT *,\n        '@{pipeline().parameters.createdBy}' AS createdBy, \n    CONVERT(DATETIME, '@{pipeline().parameters.createdDate}', 120) AS createdDate, \n    '@{pipeline().parameters.createdBy}' AS updatedBy, \n    CONVERT(DATETIME, '@{pipeline().parameters.updatedDate}', 120) AS updatedDate\nFROM raw.employees;\n",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
