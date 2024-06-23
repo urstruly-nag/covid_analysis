@@ -311,7 +311,7 @@
 		"parameters": {
 			"user": {
 				"type": "string",
-				"defaultValue": "@pipeline().RunId"
+				"defaultValue": "@{pipeline().RunId}"
 			}
 		},
 		"annotations": []
