@@ -24,8 +24,38 @@
 				"typeProperties": {
 					"source": {
 						"type": "AzureSqlSource",
+						"additionalColumns": [
+							{
+								"name": "createdBy",
+								"value": {
+									"value": "'Nagarjun'",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "createdDate",
+								"value": {
+									"value": "@formatDateTime(utcnow())",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "updatedBy",
+								"value": {
+									"value": "'Nagarjun'",
+									"type": "Expression"
+								}
+							},
+							{
+								"name": "updatedDate",
+								"value": {
+									"value": "@formatDateTime(utcnow())",
+									"type": "Expression"
+								}
+							}
+						],
 						"sqlReaderQuery": {
-							"value": "SELECT *,\n@{pipeline().parameters.createdBy} AS createdBy, \n    CAST('@{formatDateTime(utcNow(), 'yyyy-MM-dd HH:mm:ss')}' AS DATETIME) AS createdDate, \n    @{pipeline().parameters.createdBy} AS updatedBy, \n    CAST('@{formatDateTime(utcNow(), 'yyyy-MM-dd HH:mm:ss')}' AS DATETIME) AS updatedDate\nFROM raw.employees;\n",
+							"value": "select * from raw.employees",
 							"type": "Expression"
 						},
 						"queryTimeout": "02:00:00",
@@ -40,6 +70,176 @@
 					"enableStaging": false,
 					"translator": {
 						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "firstName",
+									"type": "String",
+									"physicalType": "nvarchar"
+								},
+								"sink": {
+									"name": "firstName",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "lastName",
+									"type": "String",
+									"physicalType": "nvarchar"
+								},
+								"sink": {
+									"name": "lastName",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "birthDate",
+									"type": "DateTime",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "birthDate",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "hireDate",
+									"type": "DateTime",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "hireDate",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "department",
+									"type": "String",
+									"physicalType": "nvarchar"
+								},
+								"sink": {
+									"name": "department",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "position",
+									"type": "String",
+									"physicalType": "nvarchar"
+								},
+								"sink": {
+									"name": "position",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "salary",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 10
+								},
+								"sink": {
+									"name": "salary",
+									"type": "Decimal",
+									"physicalType": "decimal",
+									"scale": 2,
+									"precision": 10
+								}
+							},
+							{
+								"source": {
+									"name": "email",
+									"type": "String",
+									"physicalType": "nvarchar"
+								},
+								"sink": {
+									"name": "email",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "phone",
+									"type": "String",
+									"physicalType": "nvarchar"
+								},
+								"sink": {
+									"name": "phone",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "asofDate",
+									"type": "DateTime",
+									"physicalType": "date"
+								},
+								"sink": {
+									"name": "asofDate",
+									"type": "DateTime",
+									"physicalType": "date"
+								}
+							},
+							{
+								"source": {
+									"name": "createdBy",
+									"type": "String"
+								},
+								"sink": {
+									"name": "createdBy",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "createdDate",
+									"type": "String"
+								},
+								"sink": {
+									"name": "createdDate",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							},
+							{
+								"source": {
+									"name": "updatedBy",
+									"type": "String"
+								},
+								"sink": {
+									"name": "updatedBy",
+									"type": "String",
+									"physicalType": "nvarchar"
+								}
+							},
+							{
+								"source": {
+									"name": "updatedDate",
+									"type": "String"
+								},
+								"sink": {
+									"name": "updatedDate",
+									"type": "DateTime",
+									"physicalType": "datetime"
+								}
+							}
+						],
 						"typeConversion": true,
 						"typeConversionSettings": {
 							"allowDataTruncation": true,
@@ -108,24 +308,6 @@
 				}
 			}
 		],
-		"parameters": {
-			"createdBy": {
-				"type": "string",
-				"defaultValue": "@pipeline().pipelinerunid"
-			},
-			"updatedBy": {
-				"type": "string",
-				"defaultValue": "@pipeline().pipelinerunid"
-			},
-			"createdDate": {
-				"type": "string",
-				"defaultValue": "@{utcNow()}"
-			},
-			"updatedDate": {
-				"type": "string",
-				"defaultValue": "@{utcNow()}"
-			}
-		},
 		"annotations": []
 	}
 }
