@@ -293,11 +293,11 @@
 			},
 			"createdDate": {
 				"type": "string",
-				"defaultValue": "@utcnow()"
+				"defaultValue": "@{formatDateTime(utcNow(), 'yyyy-MM-ddTHH:mm:ss')}"
 			},
 			"updatedDate": {
 				"type": "string",
-				"defaultValue": "@utcnow()"
+				"defaultValue": "@{formatDateTime(utcNow(), 'yyyy-MM-ddTHH:mm:ss')}"
 			}
 		},
 		"annotations": []
