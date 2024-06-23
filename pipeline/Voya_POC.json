@@ -23,7 +23,6 @@
 					},
 					"sink": {
 						"type": "AzureSqlSink",
-						"preCopyScript": "INSERT INTO stg.employees (firstName, lastName, birthDate, hireDate, department, position, salary, email, phone, asofDate, createdBy, createdDate, updatedBy, updatedDate)\nSELECT \n    firstName, \n    lastName, \n    birthDate, \n    hireDate, \n    department, \n    position, \n    salary, \n    email, \n    phone, \n    asofDate, \n    SUSER_NAME() AS createdBy, \n    GETDATE() AS createdDate, \n    SUSER_NAME() AS updatedBy, \n    GETDATE() AS updatedDate\nFROM raw.employees;\n",
 						"writeBehavior": "insert",
 						"sqlWriterUseTableLock": false,
 						"disableMetricsCollection": false
