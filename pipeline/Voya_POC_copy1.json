@@ -28,7 +28,7 @@
 							{
 								"name": "createdBy",
 								"value": {
-									"value": "'Nagarjun'",
+									"value": "@pipeline().parameters.user",
 									"type": "Expression"
 								}
 							},
@@ -42,7 +42,7 @@
 							{
 								"name": "updatedBy",
 								"value": {
-									"value": "'Nagarjun'",
+									"value": "@pipeline().parameters.user",
 									"type": "Expression"
 								}
 							},
@@ -308,6 +308,12 @@
 				}
 			}
 		],
+		"parameters": {
+			"user": {
+				"type": "string",
+				"defaultValue": "@pipeline().pipelinerunid"
+			}
+		},
 		"annotations": []
 	}
 }
