@@ -7,6 +7,10 @@
 			"metadata": "Data Factory name",
 			"defaultValue": "adf-practice-project1"
 		},
+		"AzureSqlDatabase1_password": {
+			"type": "secureString",
+			"metadata": "Secure string for 'password' of 'AzureSqlDatabase1'"
+		},
 		"ls_adls_accountKey": {
 			"type": "secureString",
 			"metadata": "Secure string for 'accountKey' of 'ls_adls'"
@@ -18,6 +22,18 @@
 		"ls_blob_covid_connectionString": {
 			"type": "secureString",
 			"metadata": "Secure string for 'connectionString' of 'ls_blob_covid'"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_server": {
+			"type": "string",
+			"defaultValue": "voyasqlserver.database.windows.net"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_database": {
+			"type": "string",
+			"defaultValue": "voyadb"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"type": "string",
+			"defaultValue": "admin1"
 		},
 		"HttpServer1_properties_typeProperties_url": {
 			"type": "string",
@@ -38,6 +54,10 @@
 		"ls_http_ecdcsite_properties_typeProperties_url": {
 			"type": "string",
 			"defaultValue": "@{linkedService().baseSourceURL}"
+		},
+		"ls_keyvault_voya_properties_typeProperties_baseUrl": {
+			"type": "string",
+			"defaultValue": "https://kvVoya.vault.azure.net/"
 		},
 		"containerUri": {
 			"type": "string",
@@ -66,6 +86,9 @@
 					"factoryName": {
 						"value": "[parameters('factoryName')]"
 					},
+					"AzureSqlDatabase1_password": {
+						"value": "[parameters('AzureSqlDatabase1_password')]"
+					},
 					"ls_adls_accountKey": {
 						"value": "[parameters('ls_adls_accountKey')]"
 					},
@@ -74,6 +97,15 @@
 					},
 					"ls_blob_covid_connectionString": {
 						"value": "[parameters('ls_blob_covid_connectionString')]"
+					},
+					"AzureSqlDatabase1_properties_typeProperties_server": {
+						"value": "[parameters('AzureSqlDatabase1_properties_typeProperties_server')]"
+					},
+					"AzureSqlDatabase1_properties_typeProperties_database": {
+						"value": "[parameters('AzureSqlDatabase1_properties_typeProperties_database')]"
+					},
+					"AzureSqlDatabase1_properties_typeProperties_userName": {
+						"value": "[parameters('AzureSqlDatabase1_properties_typeProperties_userName')]"
 					},
 					"HttpServer1_properties_typeProperties_url": {
 						"value": "[parameters('HttpServer1_properties_typeProperties_url')]"
@@ -89,6 +121,9 @@
 					},
 					"ls_http_ecdcsite_properties_typeProperties_url": {
 						"value": "[parameters('ls_http_ecdcsite_properties_typeProperties_url')]"
+					},
+					"ls_keyvault_voya_properties_typeProperties_baseUrl": {
+						"value": "[parameters('ls_keyvault_voya_properties_typeProperties_baseUrl')]"
 					}
 				}
 			},

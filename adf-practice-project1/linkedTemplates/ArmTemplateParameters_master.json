@@ -5,6 +5,9 @@
 		"factoryName": {
 			"value": "adf-practice-project1"
 		},
+		"AzureSqlDatabase1_password": {
+			"value": ""
+		},
 		"ls_adls_accountKey": {
 			"value": ""
 		},
@@ -13,6 +16,15 @@
 		},
 		"ls_blob_covid_connectionString": {
 			"value": ""
+		},
+		"AzureSqlDatabase1_properties_typeProperties_server": {
+			"value": "voyasqlserver.database.windows.net"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_database": {
+			"value": "voyadb"
+		},
+		"AzureSqlDatabase1_properties_typeProperties_userName": {
+			"value": "admin1"
 		},
 		"HttpServer1_properties_typeProperties_url": {
 			"value": "https://github.com/urstruly-nag/covid_analysis/blob/main/"
@@ -28,6 +40,9 @@
 		},
 		"ls_http_ecdcsite_properties_typeProperties_url": {
 			"value": "@{linkedService().baseSourceURL}"
+		},
+		"ls_keyvault_voya_properties_typeProperties_baseUrl": {
+			"value": "https://kvVoya.vault.azure.net/"
 		},
 		"containerUri": {
 			"value": ""
